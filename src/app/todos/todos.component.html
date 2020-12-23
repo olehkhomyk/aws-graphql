@@ -1,0 +1,42 @@
+
+<h2>Restaurant List: </h2>
+
+<button mat-button
+        mat-flat-button
+        color="primary"
+        (click)="openCreateDialog()">
+    Add new
+</button>
+
+<div class="container overflow-hidden">
+    <div class="row g-2">
+        <div class="col-4" *ngFor="let restaurant of restaurants">
+            <div class="p-3 border bg-light">
+                <p>
+                    Name: {{ restaurant.name }}
+                </p>
+                <p>
+                    City: {{ restaurant.city }}
+                </p>
+                <p>
+                    Description: {{ restaurant.description }}
+                </p>
+                <button class="mx-1"
+                        mat-button
+                        color="primary"
+                        mat-flat-button
+                        (click)="openEditDialog(restaurant)">
+                    Edit
+                </button>
+                <button class="mx-1"
+                        mat-button
+                        color="warn"
+                        mat-flat-button
+                        (click)="onDelete(restaurant)">
+                    Delete
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

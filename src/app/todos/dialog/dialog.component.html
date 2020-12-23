@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>{{title}}</h2>
+
+<mat-dialog-content class="mat-typography">
+    <form class="example-form"
+          autocomplete="off"
+          [formGroup]="createForm">
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Name: </mat-label>
+            <input matInput formControlName="name" autocomplete="off">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Description: </mat-label>
+            <input matInput formControlName="description" autocomplete="off">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>City: </mat-label>
+            <input matInput formControlName="city" autocomplete="off">
+        </mat-form-field>
+    </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button class="mx-auto"
+            mat-flat-button
+            color="primary"
+            cdkFocusInitial
+            [disabled]="createForm.invalid"
+            (click)="save()">
+        Save
+    </button>
+</mat-dialog-actions>
