@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
+import { CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
 import { Router } from '@angular/router';
 
 @Component({

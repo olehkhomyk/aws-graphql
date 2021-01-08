@@ -4,6 +4,8 @@
 import { Injectable } from "@angular/core";
 import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
 import { Observable } from "zen-observable-ts";
+import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
@@ -287,6 +289,7 @@ export class APIService {
     )) as any;
     return <GetRestaurantQuery>response.data.getRestaurant;
   }
+
   async ListRestaurants(
     filter?: ModelRestaurantFilterInput,
     limit?: number,
@@ -321,6 +324,50 @@ export class APIService {
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
     return <ListRestaurantsQuery>response.data.listRestaurants;
+  }
+
+  ListRestaurants$(
+    filter?: ModelRestaurantFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Observable<ListRestaurantsQuery> {
+    const statement = `query ListRestaurants($filter: ModelRestaurantFilterInput, $limit: Int, $nextToken: String) {
+        listRestaurants(filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            id
+            name
+            description
+            city
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }`;
+
+    const gqlAPIServiceArguments: any = {};
+
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+
+    return from(
+      API.graphql(
+        graphqlOperation(statement, gqlAPIServiceArguments)
+      )
+    ).pipe(
+      map((response) => response.data.listRestaurants)
+    ) as any;
   }
 
   OnCreateRestaurantListener: Observable<

@@ -3,6 +3,7 @@ import { Restaurant } from '../../types/restaurant';
 import { APIService } from '../API.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-todos',
@@ -13,13 +14,16 @@ export class TodosComponent implements OnInit {
   /* declare restaurants variable */
   restaurants: Array<Restaurant>;
 
-  constructor(private api: APIService, public dialog: MatDialog, private cd: ChangeDetectorRef) { }
+  public isSignOutAvailable(): boolean {
+    return this.auth.isSignedIn();
+  }
+
+  constructor(private api: APIService, public dialog: MatDialog, private auth: AuthService) { }
 
   ngOnInit() {
     /* fetch restaurants when app loads */
-    this.api.ListRestaurants().then(event => {
+    this.api.ListRestaurants$().subscribe(event => {
       this.restaurants = event.items;
-      this.cd.detectChanges();
     });
 
     /* subscribe to new restaurants being created */

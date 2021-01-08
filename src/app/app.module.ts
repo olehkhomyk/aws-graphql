@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthComponent } from './auth/auth.component';
 import { TodosComponent } from './todos/todos.component';
 import { DialogComponent } from './todos/dialog/dialog.component';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { DialogComponent } from './todos/dialog/dialog.component';
     MatButtonModule,
     MatDialogModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {

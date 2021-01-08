@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
+import { AuthState } from '@aws-amplify/ui-components';
 
 @Component({
   selector: 'app-auth',
@@ -8,14 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  constructor(private ref: ChangeDetectorRef, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    // onAuthUIStateChange((authState) => {
-      // if (authState === 'signedin') {
-      //   this.router.navigate(['todos']);
-      // }
-    // });
+    this.authService.authChange.subscribe(({ authState }) => {
+      if (authState === AuthState.SignedIn) {
+        this.router.navigate(['todos']);
+      }
+    });
   }
-
 }
